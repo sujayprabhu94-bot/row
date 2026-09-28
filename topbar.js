@@ -21,8 +21,8 @@
   const css = `
 .topbar {
   position: sticky; top: 0; z-index: 40;
-  display: flex; gap: 6px;
-  padding: max(12px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 10px max(14px, env(safe-area-inset-left));
+  display: flex; gap: 5px;
+  padding: max(12px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 8px max(10px, env(safe-area-inset-left));
   /* Fully opaque so each page's body background can't bleed through
      and tint the bar a different color. Matches the dashboard's base
      dark background so the bar feels continuous with the page chrome. */
@@ -32,19 +32,20 @@
 }
 .topbar-pill {
   flex: 1 1 0; min-width: 0;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 8px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 11px;
+  border-radius: 10px;
   text-decoration: none;
   color: #FAFAFA;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s, border-color 0.15s;
+  overflow: hidden;
 }
 .topbar-pill:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.10); }
 .topbar-pill-dot {
-  width: 7px; height: 7px; border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
   background: #6ee7b7; flex-shrink: 0;
 }
 .topbar-pill.warn .topbar-pill-dot { background: #fbbf24; }
@@ -57,18 +58,20 @@
   50%      { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
 }
 .topbar-pill-label {
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
-  flex-shrink: 0;
+  flex-shrink: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .topbar-pill-count {
   margin-left: auto;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px; font-weight: 700;
+  font-size: 11px; font-weight: 700;
   color: #FAFAFA;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .topbar-water-wrap {
   flex: 1 1 0; min-width: 0;
@@ -76,28 +79,29 @@
 }
 .topbar-water-pill {
   flex: 1; min-width: 0;
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 8px;
   background: rgba(125, 211, 252, 0.07);
   border: 1px solid rgba(125, 211, 252, 0.14);
   border-right: none;
-  border-radius: 11px 0 0 11px;
+  border-radius: 10px 0 0 10px;
   text-decoration: none;
   color: #FAFAFA;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s;
+  overflow: hidden;
 }
 .topbar-water-pill:hover { background: rgba(125, 211, 252, 0.12); }
 .topbar-water-pill .topbar-pill-dot { background: #7DD3FC; }
 .topbar-water-add {
   flex: 0 0 auto;
-  width: 38px;
+  width: 32px;
   border: 1px solid rgba(125, 211, 252, 0.14);
   background: linear-gradient(180deg, rgba(125, 211, 252, 0.22), rgba(110, 231, 183, 0.22));
   color: #FFFFFF;
-  font-family: inherit; font-size: 17px; font-weight: 700;
+  font-family: inherit; font-size: 15px; font-weight: 700;
   cursor: pointer;
-  border-radius: 0 11px 11px 0;
+  border-radius: 0 10px 10px 0;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s, transform 0.10s;
 }
@@ -110,13 +114,13 @@
 }
 
 @media (max-width: 480px) {
-  .topbar { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); gap: 4px; }
-  .topbar-pill, .topbar-water-pill { padding: 7px 9px; gap: 5px; }
-  .topbar-pill-label { font-size: 9px; letter-spacing: 0.10em; }
-  .topbar-pill-count { font-size: 11px; }
-  .topbar-water-add { width: 32px; font-size: 16px; }
+  .topbar { padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); gap: 4px; }
+  .topbar-pill, .topbar-water-pill { padding: 6px 6px; gap: 4px; }
+  .topbar-pill-label { font-size: 8px; letter-spacing: 0.06em; }
+  .topbar-pill-count { font-size: 10px; }
+  .topbar-water-add { width: 28px; font-size: 14px; }
 }
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .topbar-pill-label { display: none; }
 }
 
