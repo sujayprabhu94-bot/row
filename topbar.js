@@ -61,7 +61,7 @@
   font-size: 9px; font-weight: 700;
   letter-spacing: 0.08em; text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
-  flex-shrink: 1; min-width: 0;
+  flex-shrink: 1; min-width: 2.2em;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .topbar-pill-count {
@@ -120,8 +120,12 @@
   .topbar-pill-count { font-size: 10px; }
   .topbar-water-add { width: 28px; font-size: 14px; }
 }
-@media (max-width: 420px) {
-  .topbar-pill-label { display: none; }
+@media (max-width: 400px) {
+  .topbar { gap: 3px; }
+  .topbar-pill, .topbar-water-pill { padding: 6px 4px; gap: 3px; }
+  .topbar-pill-label { font-size: 7px; letter-spacing: 0.03em; }
+  .topbar-pill-count { font-size: 9px; }
+  .topbar-water-add { width: 24px; font-size: 13px; }
 }
 
 /* === Global mobile lockdown ===
