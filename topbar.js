@@ -197,7 +197,7 @@ body.topbar-modal-open {
   </div>
   <a href="gym.html" class="topbar-pill" id="topbarGym">
     <span class="topbar-pill-dot"></span>
-    <span class="topbar-pill-label">GYM</span>
+    <span class="topbar-pill-label">CALI</span>
   </a>
   <a href="finance.html" class="topbar-pill" id="topbarFinance">
     <span class="topbar-pill-dot"></span>

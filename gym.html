@@ -10,7 +10,7 @@
 <!-- =============================================================
      EDIT THIS BLOCK TO MAKE THE APP YOURS.
      Other people who fork this repo only need to change the values
-     below — gyms, days, units, and starter exercises. Everything
+     below — locations, days, units, and starter exercises. Everything
      else (logs, edits, additions you make in the app) is saved to
      the browser's local storage on each device.
      ============================================================= -->
@@ -21,11 +21,11 @@ const CONFIG = {
   // Weight unit shown everywhere. "kg" or "lb".
   units: "kg",
 
-  // Gyms you train at. Add as many as you want.
+  // Places you train at. Add as many as you want.
   // `id` must be a short unique slug (no spaces). `name` is what people see.
   gyms: [
-    { id: "home",  name: "Home Gym" },
-    { id: "comm",  name: "Commercial Gym" }
+    { id: "home",  name: "Home" },
+    { id: "calibar", name: "Cali Bar" }
   ],
 
   // Training split. Most people use Push/Pull/Legs but you can rename
@@ -67,26 +67,27 @@ const CONFIG = {
 
   // Starter exercise list. Each one needs:
   //   name        — what shows in the dropdown
-  //   gym         — one of the gym ids above, or "both"
+  //   gym         — one of the location ids above, or "both"
   //   day         — one of the day ids above
   //   repMin      — bottom of your target rep range
   //   repMax      — top of your target rep range
-  //   step        — how much weight you add when progressing (kg/lb)
-  //   startWeight — starting weight (ignored when bw: true)
-  //   bw          — true for bodyweight movements (logs reps only)
+  //   step        — how much weight you add when progressing (kg/lb) — only
+  //                 matters for weighted variations (e.g. weighted dips)
+  //   startWeight — starting added weight (ignored when bw: true)
+  //   bw          — true for bodyweight movements (logs reps only, no added weight)
   //
   // First-run defaults. Once a user logs anything, they edit through
   // the in-app + / gear buttons; this block stays as the seed.
   defaultExercises: [
-    { name: "Bench press",     gym: "comm", day: "push", repMin: 5, repMax: 8,  step: 2.5, startWeight: 60 },
-    { name: "Overhead press",  gym: "comm", day: "push", repMin: 5, repMax: 8,  step: 2.5, startWeight: 35 },
-    { name: "Tricep pushdown", gym: "comm", day: "push", repMin: 8, repMax: 12, step: 2.5, startWeight: 25 },
-    { name: "Pull-ups",        gym: "both", day: "pull", repMin: 5, repMax: 10, step: 1,   startWeight: 0, bw: true },
-    { name: "Barbell row",     gym: "comm", day: "pull", repMin: 6, repMax: 10, step: 2.5, startWeight: 50 },
-    { name: "Bicep curl",      gym: "comm", day: "pull", repMin: 8, repMax: 12, step: 1.25,startWeight: 15 },
-    { name: "Back squat",      gym: "comm", day: "legs", repMin: 5, repMax: 8,  step: 5,   startWeight: 80 },
-    { name: "Romanian deadlift", gym: "comm", day: "legs", repMin: 6, repMax: 10, step: 5, startWeight: 60 },
-    { name: "Leg press",       gym: "comm", day: "legs", repMin: 8, repMax: 12, step: 5,   startWeight: 100 }
+    { name: "Push-ups",        gym: "both",    day: "push", repMin: 10, repMax: 20, step: 1, startWeight: 0, bw: true },
+    { name: "Pike push-ups",   gym: "both",    day: "push", repMin: 5,  repMax: 12, step: 1, startWeight: 0, bw: true },
+    { name: "Dips",            gym: "calibar", day: "push", repMin: 8,  repMax: 15, step: 1, startWeight: 0, bw: true },
+    { name: "Pull-ups",        gym: "both",    day: "pull", repMin: 5,  repMax: 10, step: 1, startWeight: 0, bw: true },
+    { name: "Chin-ups",        gym: "both",    day: "pull", repMin: 5,  repMax: 10, step: 1, startWeight: 0, bw: true },
+    { name: "Australian rows", gym: "home",    day: "pull", repMin: 8,  repMax: 15, step: 1, startWeight: 0, bw: true },
+    { name: "Pistol squats",   gym: "both",    day: "legs", repMin: 5,  repMax: 10, step: 1, startWeight: 0, bw: true },
+    { name: "Bulgarian split squats", gym: "both", day: "legs", repMin: 8, repMax: 15, step: 1, startWeight: 0, bw: true },
+    { name: "Glute bridges",   gym: "home",    day: "legs", repMin: 10, repMax: 20, step: 1, startWeight: 0, bw: true }
   ]
 };
 </script>
@@ -1443,7 +1444,7 @@ img, video, canvas, svg { max-width: 100%; }
     <!-- Filters -->
     <div class="po-filters">
       <div class="po-seg-row">
-        <span class="po-seg-label">Gym</span>
+        <span class="po-seg-label">Location</span>
         <div class="po-seg-control" id="gymSeg"></div>
       </div>
       <div class="po-seg-row">
@@ -1593,7 +1594,7 @@ img, video, canvas, svg { max-width: 100%; }
       <input type="text" id="exName" placeholder="e.g. Incline DB press">
     </div>
     <div class="po-field">
-      <label style="font-size:11px;color:var(--text-3);font-weight:700;letter-spacing:0.04em;text-transform:uppercase">Gym</label>
+      <label style="font-size:11px;color:var(--text-3);font-weight:700;letter-spacing:0.04em;text-transform:uppercase">Location</label>
       <div class="po-modal-seg" id="exGymSeg"></div>
     </div>
     <div class="po-field">
@@ -1661,9 +1662,9 @@ img, video, canvas, svg { max-width: 100%; }
     </div>
 
     <div class="po-set-section">
-      <h4>Gyms</h4>
+      <h4>Locations</h4>
       <div class="po-set-list" id="setGyms"></div>
-      <button class="po-add-row-btn" id="setAddGym">+ Add gym</button>
+      <button class="po-add-row-btn" id="setAddGym">+ Add location</button>
     </div>
 
     <div class="po-set-section">
@@ -1884,7 +1885,7 @@ img, video, canvas, svg { max-width: 100%; }
   function renderRx() {
     const wrap = $('rxWrap');
     const ex = getCurrentEx();
-    if (!ex) { wrap.innerHTML = '<div class="po-rx-empty">Pick a gym and day above.</div>'; return; }
+    if (!ex) { wrap.innerHTML = '<div class="po-rx-empty">Pick a location and day above.</div>'; return; }
     const logs = getLogs();
     const rx = getRx(ex, logs);
     if (!rx) {
@@ -2361,7 +2362,7 @@ img, video, canvas, svg { max-width: 100%; }
   $('exModalSave').addEventListener('click', () => {
     const name = $('exName').value.trim();
     if (!name) { alert('Name is required.'); return; }
-    if (!modalGym) { alert('Pick a gym.'); return; }
+    if (!modalGym) { alert('Pick a location.'); return; }
     if (!modalDay) { alert('Pick a day.'); return; }
     const isBw = $('exBw').checked;
     const repMin = parseInt($('exRepMin').value, 10) || 6;
@@ -2507,7 +2508,7 @@ img, video, canvas, svg { max-width: 100%; }
     });
     $('setGyms').innerHTML = state.gyms.map((g, i) =>
       '<div class="po-set-row" data-i="' + i + '">'
-      + '<input type="text" value="' + escape(g.name) + '" data-field="name" placeholder="Gym name">'
+      + '<input type="text" value="' + escape(g.name) + '" data-field="name" placeholder="Location name">'
       + '<button class="po-mini-btn" data-action="del" aria-label="Delete">×</button>'
       + '</div>'
     ).join('');
@@ -2524,8 +2525,8 @@ img, video, canvas, svg { max-width: 100%; }
         saveState();
       });
       row.querySelector('[data-action="del"]').addEventListener('click', () => {
-        if (state.gyms.length <= 1) { alert('You need at least one gym.'); return; }
-        if (!confirm('Remove "' + state.gyms[i].name + '"? Exercises tagged to this gym will become invisible until you reassign them.')) return;
+        if (state.gyms.length <= 1) { alert('You need at least one location.'); return; }
+        if (!confirm('Remove "' + state.gyms[i].name + '"? Exercises tagged to this location will become invisible until you reassign them.')) return;
         state.gyms.splice(i, 1);
         if (!state.gyms.find(g => g.id === state.filterGym)) state.filterGym = state.gyms[0].id;
         saveState(); renderSettings(); renderAll();
@@ -2563,7 +2564,7 @@ img, video, canvas, svg { max-width: 100%; }
     });
   });
   $('setAddGym').addEventListener('click', () => {
-    const name = (prompt('New gym name:') || '').trim();
+    const name = (prompt('New location name:') || '').trim();
     if (!name) return;
     const id = 'g_' + Date.now();
     state.gyms.push({ id, name });
@@ -2600,7 +2601,7 @@ img, video, canvas, svg { max-width: 100%; }
     reader.readAsText(file);
   });
   $('setReset').addEventListener('click', () => {
-    if (!confirm('Delete EVERYTHING (logs, edits, gyms, days)? This cannot be undone.')) return;
+    if (!confirm('Delete EVERYTHING (logs, edits, locations, days)? This cannot be undone.')) return;
     localStorage.removeItem(LS_KEY);
     state = loadState();
     $('setModalBg').classList.remove('show');
